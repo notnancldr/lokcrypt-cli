@@ -1,2 +1,2 @@
 def menu_proses_teks() -> None:
-    pass
+    print('Proses Teks Menu')
