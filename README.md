@@ -8,6 +8,21 @@ Aplikasi keamanan *local-first* ringan berbasis tampilan CLI. Ditujukan untuk tu
 
 ---
 
+## Cara Menjalankan
+```bash
+python -m venv .venv
+
+# Windows
+.venv\Scripts\activate
+# Linux/macOS
+source .venv/bin/activate
+
+pip install -r requirements.txt
+python main.py
+```
+
+---
+
 ## Panduan Kolaborasi
 
 ### Branching

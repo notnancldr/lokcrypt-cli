@@ -1,4 +1,8 @@
-from modules.frontend.tampilan import menu_header, GARIS
+from modules.backend.encryption_logic import decrypt_text, derive_key, encrypt_text
+from modules.frontend.menu_kesalahan import menu_kesalahan
+from modules.frontend.menu_password import menu_password
+from modules.frontend.menu_penyajian import menu_hasil_teks
+from modules.frontend.tampilan import GARIS, menu_header
 
 
 def minta_teks() -> str:
@@ -28,19 +32,27 @@ def menu_proses_teks() -> None:
             break
 
         teks = minta_teks()
+        password = menu_password()
 
-        # TODO: ganti dengan menu_password() dari teman
-        password = 'placeholder'
+        if password == '':
+            menu_kesalahan('Password tidak boleh kosong!')
+            input('Tekan Enter untuk kembali...')
+            continue
 
-        if pilihan == '1':
-            # TODO: ganti dengan encrypt(...) dari teman
-            hasil = '[placeholder enkripsi] ' + teks
-        else:
-            # TODO: ganti dengan decrypt(...) dari teman
-            hasil = '[placeholder dekripsi] ' + teks
+        key = derive_key(password)
 
-        # TODO: ganti dengan menu_hasil_teks(hasil) dari teman
-        print(GARIS)
-        print('Hasil:', hasil)
-        print(GARIS)
+        try:
+            if pilihan == '1':
+                hasil = encrypt_text(key, teks)
+            else:
+                hasil = decrypt_text(key, teks)
+        except (ValueError, UnicodeDecodeError) as error:
+            menu_kesalahan(
+                'Gagal memproses teks. Pastikan password dan format data benar. '
+                f'({error})'
+            )
+            input('Tekan Enter untuk kembali...')
+            continue
+
+        menu_hasil_teks(hasil)
         input('Tekan Enter untuk kembali...')
